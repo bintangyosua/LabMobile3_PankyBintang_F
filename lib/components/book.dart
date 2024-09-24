@@ -72,6 +72,38 @@ class Book extends StatelessWidget {
                 ),
               ],
             ),
+            Row(
+              children: [
+                const SizedBox(
+                  width: 8,
+                ),
+                SizedBox(
+                  height: 30,
+                  child: ElevatedButton(
+                    child: Text(
+                      'Edit',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue[400]),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                SizedBox(
+                  height: 30,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.redAccent),
+                    child: const Text(
+                      'Hapus',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+              ],
+            )
           ],
         ),
       ),
