@@ -32,7 +32,7 @@ class ExampleExpandableFab extends StatelessWidget {
       children: [
         ActionButton(
           onPressed: () => _showAction(context, 0),
-          icon: const Icon(Icons.book),
+          icon: const Icon(Icons.add),
         ),
       ],
     );

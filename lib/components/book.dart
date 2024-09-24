@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
 
 class Book extends StatelessWidget {
+  final int _id;
   final String _title;
   final String _author;
   final String _rating;
   final String _shelves;
 
+  final Function(int) onRemove;
+
   const Book(
       {super.key,
+      required int id,
       required String title,
       required String author,
       required String rating,
-      required String shelves})
-      : _title = title,
+      required String shelves,
+      required this.onRemove})
+      : _id = id,
+        _title = title,
         _author = author,
         _rating = rating,
         _shelves = shelves;
@@ -93,7 +99,10 @@ class Book extends StatelessWidget {
                 SizedBox(
                   height: 30,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      print('id: $_id');
+                      onRemove(_id);
+                    },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.redAccent),
                     child: const Text(
