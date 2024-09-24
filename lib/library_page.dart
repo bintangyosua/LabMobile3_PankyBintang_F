@@ -2,6 +2,8 @@ import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:minuet_library/components/book.dart';
+import 'package:minuet_library/components/sidemenu.dart';
+import 'package:minuet_library/login_page.dart';
 
 class LibraryPage extends StatelessWidget {
   const LibraryPage({super.key});
@@ -14,8 +16,11 @@ class LibraryPage extends StatelessWidget {
           'Minuet Library',
           style: TextStyle(color: Colors.white),
         ),
-        backgroundColor: Theme.of(context).colorScheme.onPrimaryFixed,
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        iconTheme:
+            IconThemeData(color: Theme.of(context).colorScheme.inversePrimary),
       ),
+      drawer: Sidemenu(),
       body: FutureBuilder<List<List<dynamic>>>(
         future: getBooks(),
         builder: (context, snapshot) {
