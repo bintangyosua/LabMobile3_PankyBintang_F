@@ -100,7 +100,6 @@ class Book extends StatelessWidget {
                   height: 30,
                   child: ElevatedButton(
                     onPressed: () {
-                      print('id: $_id');
                       onRemove(_id);
                     },
                     style: ElevatedButton.styleFrom(

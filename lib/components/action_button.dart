@@ -2,22 +2,100 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
-@immutable
-class ExampleExpandableFab extends StatelessWidget {
+class ExampleExpandableFab extends StatefulWidget {
+  final Function(String title, String author, String rating, int? status) onAdd;
+
+  const ExampleExpandableFab({super.key, required this.onAdd});
+
+  @override
+  AddButtonState createState() => AddButtonState();
+}
+
+class AddButtonState extends State<ExampleExpandableFab> {
   static const _actionTitles = ['Menambahkan Buku'];
 
-  const ExampleExpandableFab({super.key});
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _authorController = TextEditingController();
+  final TextEditingController _ratingController = TextEditingController();
+  final TextEditingController _statusController = TextEditingController();
+
+  int? status = 1;
 
   void _showAction(BuildContext context, int index) {
     showDialog<void>(
       context: context,
       builder: (context) {
         return AlertDialog(
-          content: Text(_actionTitles[index]),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                'Tambah Buku',
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
+              ),
+              const SizedBox(
+                height: 18,
+              ),
+              TextField(
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Judul',
+                    prefixIcon: Icon(Icons.title)),
+                controller: _titleController,
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              TextField(
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Author',
+                    prefixIcon: Icon(Icons.person)),
+                controller: _authorController,
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              TextField(
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Rating',
+                    prefixIcon: Icon(Icons.rate_review)),
+                controller: _ratingController,
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              DropdownButtonFormField<int>(
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Status',
+                    prefixIcon: Icon(Icons.book)),
+                items: const [
+                  DropdownMenuItem(value: 1, child: Text("to read")),
+                  DropdownMenuItem(value: 2, child: Text("currently-reading")),
+                  DropdownMenuItem(value: 3, child: Text("read")),
+                ],
+                onChanged: (value) {
+                  setState(() {
+                    status = value;
+                  });
+                },
+              )
+            ],
+          ),
           actions: [
             TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('CLOSE'),
+              onPressed: () {
+                widget.onAdd(
+                  _titleController.text,
+                  _authorController.text,
+                  _ratingController.text,
+                  status,
+                );
+                Navigator.pop(context);
+              },
+              child: const Text('Simpan'),
             ),
           ],
         );

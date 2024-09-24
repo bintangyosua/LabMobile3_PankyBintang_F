@@ -13,6 +13,7 @@ class BookList extends StatefulWidget {
 
 class LibraryPage extends State<BookList> {
   List<List<dynamic>> booklist = [];
+  int counter = 17;
 
   @override
   void initState() {
@@ -36,10 +37,10 @@ class LibraryPage extends State<BookList> {
     });
   }
 
-  void addBook(
-      int id, String title, String author, String rating, String status) {
+  void addBook(String title, String author, String rating, int? status) {
     setState(() {
-      booklist.add([id, title, author, rating, status]);
+      counter++;
+      booklist.add([counter, title, author, rating, status]);
     });
   }
 
@@ -73,7 +74,7 @@ class LibraryPage extends State<BookList> {
                 );
               },
             ),
-      floatingActionButton: ExampleExpandableFab(),
+      floatingActionButton: ExampleExpandableFab(onAdd: addBook),
     );
   }
 }
