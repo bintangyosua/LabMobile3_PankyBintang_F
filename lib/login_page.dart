@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:minuet_library/library_page.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -32,20 +41,22 @@ class LoginPage extends StatelessWidget {
             const SizedBox(height: 10),
             const Text('Masuk dengan mengisi email dan password!'),
             const SizedBox(height: 20),
-            const TextField(
-              decoration: InputDecoration(
+            TextField(
+              decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Email',
                 prefixIcon: Icon(Icons.email),
               ),
+              controller: _emailController,
             ),
             const SizedBox(height: 20),
-            const TextField(
+            TextField(
               obscureText: true,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Password',
                   prefixIcon: Icon(Icons.lock)),
+              controller: _passwordController,
             ),
             const SizedBox(height: 20),
             SizedBox(
@@ -55,7 +66,7 @@ class LoginPage extends StatelessWidget {
                   minimumSize: const Size(double.infinity, 48),
                 ),
                 onPressed: () {
-                  Navigator.pushNamed(context, '/home');
+                  _login();
                 },
                 child: const Text('Masuk'),
               ),
@@ -65,5 +76,19 @@ class LoginPage extends StatelessWidget {
         ),
       )),
     );
+  }
+
+  void _login() async {
+    if (_emailController.text != 'bintang' ||
+        _passwordController.text != '123456') {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Email atau Password yang anda masukkan salah!'),
+        ),
+      );
+    } else {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => BookList()));
+    }
   }
 }
