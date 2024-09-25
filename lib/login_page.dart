@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:minuet_library/library_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -9,7 +10,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final _emailController = TextEditingController();
+  final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
 
   @override
@@ -44,10 +45,10 @@ class _LoginPageState extends State<LoginPage> {
             TextField(
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: 'Email',
+                labelText: 'Username',
                 prefixIcon: Icon(Icons.email),
               ),
-              controller: _emailController,
+              controller: _usernameController,
             ),
             const SizedBox(height: 20),
             TextField(
@@ -79,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _login() async {
-    if (_emailController.text != 'bintang' ||
+    if (_usernameController.text != 'bintang' ||
         _passwordController.text != '123456') {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -87,6 +88,8 @@ class _LoginPageState extends State<LoginPage> {
         ),
       );
     } else {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString('email', _usernameController.text);
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => BookList()));
     }
