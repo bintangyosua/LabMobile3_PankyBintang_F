@@ -7,11 +7,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 class Sidemenu extends StatelessWidget {
   const Sidemenu({Key? key}) : super(key: key);
 
-  Future<String?> getEmail(BuildContext context) async {
+  Future<String?> getUsername(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? email = prefs.getString('email');
-    return email != null
-        ? email
+    String? username = prefs.getString('username');
+    return username != null
+        ? username
         : Navigator.push(
             context, MaterialPageRoute(builder: (context) => LoginPage()));
   }
@@ -21,7 +21,7 @@ class Sidemenu extends StatelessWidget {
     return Drawer(
       child: ListView(children: [
         FutureBuilder<String?>(
-          future: getEmail(context),
+          future: getUsername(context),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return DrawerHeader(

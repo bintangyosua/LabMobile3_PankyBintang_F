@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:minuet_library/components/action_button.dart';
 import 'package:minuet_library/components/book.dart';
 import 'package:minuet_library/components/sidemenu.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BookList extends StatefulWidget {
   @override
@@ -30,13 +31,13 @@ class LibraryPage extends State<BookList> {
     });
   }
 
-  void removeBook(int id) {
+  void removeBook(int id) async {
     setState(() {
       booklist.removeWhere((item) => item[0] == id);
     });
   }
 
-  void addBook(String title, String author, int rating, int? status) {
+  void addBook(String title, String author, int rating, int? status) async {
     setState(() {
       counter++;
       booklist.add([counter, title, author, rating, status]);
@@ -70,9 +71,9 @@ class LibraryPage extends State<BookList> {
           color: Theme.of(context).colorScheme.inversePrimary,
         ),
       ),
-      drawer: Sidemenu(),
+      drawer: const Sidemenu(),
       body: booklist.isEmpty
-          ? Center(child: Text('Belum ada buku yang ditambahkan'))
+          ? const Center(child: Text('Belum ada buku yang ditambahkan'))
           : ListView.builder(
               itemCount: booklist.length,
               itemBuilder: (context, index) {

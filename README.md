@@ -1,16 +1,25 @@
-# minuet_library
+# Minuet Library
 
-A new Flutter project.
+Tugas Praktikum Mobile 3
 
-## Getting Started
+## Penjelasan Kode
 
-This project is a starting point for a Flutter application.
+### 1. Halaman Login
 
-A few resources to get you started if this is your first Flutter project:
+### 2. Halaman Library
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+#### 2.1 Menambah Buku
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+#### 2.2 Mengedit Buku
+
+#### 2.3 Menghapus Buku
+
+### 3. Sidebar
+
+### 4. Profile
+
+### 5. Logout
+
+## Demo
+
+![Animated Demo](./assets/gif/animated.gif)

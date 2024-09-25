@@ -80,16 +80,22 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _login() async {
-    if (_usernameController.text != 'bintang' ||
+    if (_usernameController.text == '' || _passwordController.text == '') {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Username dan Password harus diisi!'),
+        ),
+      );
+    } else if (_usernameController.text != 'bintang' ||
         _passwordController.text != '123456') {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Email atau Password yang anda masukkan salah!'),
+          content: Text('Username atau Password yang anda masukkan salah!'),
         ),
       );
     } else {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString('email', _usernameController.text);
+      prefs.setString('username', _usernameController.text);
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => BookList()));
     }

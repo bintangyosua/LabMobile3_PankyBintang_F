@@ -19,7 +19,10 @@ class AddButtonState extends State<ExampleExpandableFab> {
   final TextEditingController _ratingController = TextEditingController();
   final TextEditingController _statusController = TextEditingController();
 
-  int? status = 0;
+  void initState() {
+    super.initState();
+    _ratingController.text = '0';
+  }
 
   void _showAction(BuildContext context, int index) {
     showDialog<void>(
@@ -67,7 +70,7 @@ class AddButtonState extends State<ExampleExpandableFab> {
                 height: 12,
               ),
               DropdownButtonFormField<int>(
-                value: status,
+                value: 0,
                 decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Status',
@@ -88,6 +91,10 @@ class AddButtonState extends State<ExampleExpandableFab> {
           actions: [
             TextButton(
               onPressed: () {
+                if (_statusController.text == '') {
+                  _statusController.text = '0';
+                }
+
                 widget.onAdd(
                   _titleController.text,
                   _authorController.text,
