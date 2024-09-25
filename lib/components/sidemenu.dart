@@ -16,6 +16,13 @@ class Sidemenu extends StatelessWidget {
             context, MaterialPageRoute(builder: (context) => LoginPage()));
   }
 
+  void signout(BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('username');
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => LoginPage()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -61,8 +68,8 @@ class Sidemenu extends StatelessWidget {
             leading: const Icon(Icons.exit_to_app_rounded),
             title: const Text('Sign out'),
             onTap: () async {
-              // SharedPreferences prefs = await SharedPreferences.getInstance();
-              // await prefs.setBool('isLoggedIn', false);
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              await prefs.remove('username');
 
               Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(builder: (context) => const LoginPage()),
