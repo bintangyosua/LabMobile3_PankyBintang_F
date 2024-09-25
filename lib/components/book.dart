@@ -1,27 +1,59 @@
 import 'package:flutter/material.dart';
 
-class Book extends StatelessWidget {
-  final int _id;
-  final String _title;
-  final String _author;
-  final String _rating;
-  final String _shelves;
+class Book extends StatefulWidget {
+  final int id;
+  final String title;
+  final String author;
+  final int rating;
+  int? shelves;
 
+  final _shelves = <String>[
+    'to read',
+    'currently reading',
+    'read',
+  ];
+
+  final Function(int, String, String, int, int?) onEdit;
   final Function(int) onRemove;
 
-  const Book(
+  Book(
       {super.key,
-      required int id,
-      required String title,
-      required String author,
-      required String rating,
-      required String shelves,
-      required this.onRemove})
-      : _id = id,
-        _title = title,
-        _author = author,
-        _rating = rating,
-        _shelves = shelves;
+      required this.id,
+      required this.title,
+      required this.author,
+      required this.rating,
+      required this.shelves,
+      required this.onEdit,
+      required this.onRemove});
+
+  @override
+  _BookState createState() => _BookState();
+}
+
+@override
+class _BookState extends State<Book> {
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _authorController = TextEditingController();
+  final TextEditingController _ratingController = TextEditingController();
+  final TextEditingController _statusController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _titleController.text = widget.title;
+    _authorController.text = widget.author;
+    _ratingController.text = widget.rating.toString();
+    _statusController.text = widget.shelves.toString();
+  }
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _authorController.dispose();
+    _ratingController.dispose();
+    _statusController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +73,7 @@ class Book extends StatelessWidget {
                         CrossAxisAlignment.start, // Menjaga teks di sisi kiri
                     children: [
                       Text(
-                        _title,
+                        widget.title,
                         overflow: TextOverflow
                             .visible, // Ubah overflow menjadi visible
                         style: Theme.of(context).textTheme.titleMedium,
@@ -55,7 +87,7 @@ class Book extends StatelessWidget {
               children: [
                 const SizedBox(width: 8),
                 Text(
-                  'by $_author',
+                  'by ${widget.author}',
                   style: Theme.of(context).textTheme.labelLarge,
                 ),
               ],
@@ -64,7 +96,7 @@ class Book extends StatelessWidget {
               children: [
                 const SizedBox(width: 8),
                 Text(
-                  _rating,
+                  'My Rating: ${widget.rating}',
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
               ],
@@ -73,12 +105,13 @@ class Book extends StatelessWidget {
               children: [
                 const SizedBox(width: 8),
                 Text(
-                  _shelves,
+                  widget._shelves[widget.shelves!],
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
               ],
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 const SizedBox(
                   width: 8,
@@ -86,13 +119,15 @@ class Book extends StatelessWidget {
                 SizedBox(
                   height: 30,
                   child: ElevatedButton(
-                    child: Text(
+                    onPressed: () {
+                      _showAction(context, widget.id);
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue[400]),
+                    child: const Text(
                       'Edit',
                       style: TextStyle(color: Colors.white),
                     ),
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue[400]),
                   ),
                 ),
                 const SizedBox(width: 8),
@@ -100,7 +135,7 @@ class Book extends StatelessWidget {
                   height: 30,
                   child: ElevatedButton(
                     onPressed: () {
-                      onRemove(_id);
+                      widget.onRemove(widget.id);
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.redAccent),
@@ -115,6 +150,91 @@ class Book extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  void _showAction(BuildContext context, int id) {
+    print('${widget.author}, ${widget.title}');
+    showDialog<void>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                'Edit Buku',
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
+              ),
+              const SizedBox(
+                height: 18,
+              ),
+              TextFormField(
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Judul',
+                    prefixIcon: Icon(Icons.title)),
+                controller: _titleController,
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              TextFormField(
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Author',
+                    prefixIcon: Icon(Icons.person)),
+                controller: _authorController,
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              TextFormField(
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Rating',
+                    prefixIcon: Icon(Icons.rate_review)),
+                controller: _ratingController,
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              DropdownButtonFormField<int>(
+                value: int.parse(_statusController.text),
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Status',
+                    prefixIcon: Icon(Icons.book)),
+                items: const [
+                  DropdownMenuItem(value: 0, child: Text("to read")),
+                  DropdownMenuItem(value: 1, child: Text("currently reading")),
+                  DropdownMenuItem(value: 2, child: Text("read")),
+                ],
+                onChanged: (int? value) {
+                  setState(() {
+                    _statusController.text = value.toString();
+                  });
+                },
+              )
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                print(widget.shelves);
+                widget.onEdit(
+                    widget.id,
+                    _titleController.text,
+                    _authorController.text,
+                    int.parse(_ratingController.text),
+                    int.parse(_statusController.text));
+                Navigator.pop(context);
+              },
+              child: const Text('Simpan'),
+            ),
+          ],
+        );
+      },
     );
   }
 }

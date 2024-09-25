@@ -3,7 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 class ExampleExpandableFab extends StatefulWidget {
-  final Function(String title, String author, String rating, int? status) onAdd;
+  final Function(String title, String author, int rating, int? status) onAdd;
 
   const ExampleExpandableFab({super.key, required this.onAdd});
 
@@ -19,7 +19,7 @@ class AddButtonState extends State<ExampleExpandableFab> {
   final TextEditingController _ratingController = TextEditingController();
   final TextEditingController _statusController = TextEditingController();
 
-  int? status = 1;
+  int? status = 0;
 
   void _showAction(BuildContext context, int index) {
     showDialog<void>(
@@ -67,18 +67,19 @@ class AddButtonState extends State<ExampleExpandableFab> {
                 height: 12,
               ),
               DropdownButtonFormField<int>(
+                value: status,
                 decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Status',
                     prefixIcon: Icon(Icons.book)),
                 items: const [
-                  DropdownMenuItem(value: 1, child: Text("to read")),
-                  DropdownMenuItem(value: 2, child: Text("currently-reading")),
-                  DropdownMenuItem(value: 3, child: Text("read")),
+                  DropdownMenuItem(value: 0, child: Text("to read")),
+                  DropdownMenuItem(value: 1, child: Text("currently-reading")),
+                  DropdownMenuItem(value: 2, child: Text("read")),
                 ],
                 onChanged: (value) {
                   setState(() {
-                    status = value;
+                    _statusController.text = value.toString();
                   });
                 },
               )
@@ -90,10 +91,14 @@ class AddButtonState extends State<ExampleExpandableFab> {
                 widget.onAdd(
                   _titleController.text,
                   _authorController.text,
-                  _ratingController.text,
-                  status,
+                  int.parse(_ratingController.text),
+                  int.parse(_statusController.text),
                 );
                 Navigator.pop(context);
+                _titleController.text = '';
+                _authorController.text = '';
+                _ratingController.text = '';
+                _statusController.text = '';
               },
               child: const Text('Simpan'),
             ),

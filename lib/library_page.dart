@@ -37,10 +37,24 @@ class LibraryPage extends State<BookList> {
     });
   }
 
-  void addBook(String title, String author, String rating, int? status) {
+  void addBook(String title, String author, int rating, int? status) {
     setState(() {
       counter++;
       booklist.add([counter, title, author, rating, status]);
+    });
+  }
+
+  void editBook(int id, String title, String author, int rating, int? status) {
+    setState(() {
+      final index = booklist.indexWhere((item) => item[0] == id);
+
+      booklist[index] = [
+        id,
+        title,
+        author,
+        rating,
+        status,
+      ];
     });
   }
 
@@ -68,9 +82,10 @@ class LibraryPage extends State<BookList> {
                   id: book[0],
                   title: book[1].toString(),
                   author: book[2].toString(),
-                  rating: 'Rating: ${book[3].toString()}',
-                  shelves: book[4].toString(),
+                  rating: book[3],
+                  shelves: book[4],
                   onRemove: removeBook,
+                  onEdit: editBook,
                 );
               },
             ),
