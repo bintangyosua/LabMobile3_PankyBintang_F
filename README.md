@@ -176,6 +176,43 @@ Menampilkan sidebar aplikasi. Dilakukan dengan klik button hamburger pada pojok 
 drawer: const Sidemenu(),
 ```
 
+Lalu, mendefinisikan route pada `main.dart`.
+
+```dart
+Widget build(BuildContext context) {
+  return MaterialApp(
+    title: 'Minuet Library',
+    theme: ThemeData(
+      colorScheme: ColorScheme.fromSeed(seedColor: Colors.brown),
+      useMaterial3: true,
+    ),
+    home: const LoginPage(),
+    routes: {
+      '/library': (context) => BookList(),
+      '/profile': (context) => const ProfilePage(),
+    },
+  );
+}
+```
+
+Setelah itu menggunakan route tersebut berdasarkan nama
+
+```dart
+ListTile(
+  leading: const Icon(Icons.home),
+  title: const Text('Library'),
+  onTap: () {
+    Navigator.pushNamed(context, '/library'); // Ini
+  },
+),
+ListTile(
+  leading: const Icon(Icons.person),
+  title: const Text('Profile'),
+  onTap: () {
+    Navigator.pushNamed(context, '/profile'); // Ini
+}),
+```
+
 ### 4. Profile
 
 `lib/profile_page.dart`

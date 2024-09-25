@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:minuet_library/library_page.dart';
 import 'package:minuet_library/login_page.dart';
+import 'package:minuet_library/profile_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,6 +20,10 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const LoginPage(),
+      routes: {
+        '/library': (context) => BookList(),
+        '/profile': (context) => const ProfilePage(),
+      },
     );
   }
 }

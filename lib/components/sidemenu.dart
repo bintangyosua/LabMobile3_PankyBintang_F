@@ -5,22 +5,21 @@ import 'package:minuet_library/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Sidemenu extends StatelessWidget {
-  const Sidemenu({Key? key}) : super(key: key);
+  const Sidemenu({super.key});
 
   Future<String?> getUsername(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? username = prefs.getString('username');
-    return username != null
-        ? username
-        : Navigator.push(
-            context, MaterialPageRoute(builder: (context) => LoginPage()));
+    return username ??
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const LoginPage()));
   }
 
   void signout(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove('username');
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => LoginPage()));
+        context, MaterialPageRoute(builder: (context) => const LoginPage()));
   }
 
   @override
@@ -53,16 +52,18 @@ class Sidemenu extends StatelessWidget {
           leading: const Icon(Icons.home),
           title: const Text('Library'),
           onTap: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => BookList()));
+            // Navigator.pushNamed(
+            //     context, MaterialPageRoute.(builder: (context) => BookList()));
+            Navigator.pushNamed(context, '/library');
           },
         ),
         ListTile(
             leading: const Icon(Icons.person),
             title: const Text('Profile'),
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const ProfilePage()));
+              // Navigator.push(context,
+              //     MaterialPageRoute(builder: (context) => const ProfilePage()));
+              Navigator.pushNamed(context, '/profile');
             }),
         ListTile(
             leading: const Icon(Icons.exit_to_app_rounded),
