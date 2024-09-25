@@ -267,4 +267,6 @@ ListTile(
 
 ## Demo
 
+Demo dalam bentuk gif. Jika tidak muncul, maka tunggu beberapa saat karena sedang diunduh dan dirender.
+
 ![Animated Demo](./assets/gif/animated.gif)
