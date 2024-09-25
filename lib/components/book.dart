@@ -27,7 +27,7 @@ class Book extends StatefulWidget {
       required this.onRemove});
 
   @override
-  _BookState createState() => _BookState();
+  State<Book> createState() => _BookState();
 }
 
 @override
@@ -95,10 +95,22 @@ class _BookState extends State<Book> {
             Row(
               children: [
                 const SizedBox(width: 8),
-                Text(
-                  'My Rating: ${widget.rating}',
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
+                RichText(
+                    text: TextSpan(children: [
+                  TextSpan(
+                      text: 'My Rating ',
+                      style: Theme.of(context).textTheme.bodyLarge),
+                  for (int i = 0; i < widget.rating; i++)
+                    WidgetSpan(
+                        child: Icon(Icons.star,
+                            size: 20,
+                            color:
+                                i < 5 ? Colors.amber[600] : Colors.grey[400])),
+                  for (int i = widget.rating; i < 5; i++)
+                    WidgetSpan(
+                        child: Icon(Icons.star_border,
+                            size: 20, color: Colors.grey[400]))
+                ]))
               ],
             ),
             Row(
@@ -154,7 +166,6 @@ class _BookState extends State<Book> {
   }
 
   void _showAction(BuildContext context, int id) {
-    print('${widget.author}, ${widget.title}');
     showDialog<void>(
       context: context,
       builder: (context) {
@@ -221,7 +232,6 @@ class _BookState extends State<Book> {
           actions: [
             TextButton(
               onPressed: () {
-                print(widget.shelves);
                 widget.onEdit(
                     widget.id,
                     _titleController.text,

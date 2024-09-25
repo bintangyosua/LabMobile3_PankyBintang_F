@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:minuet_library/library_page.dart';
 import 'package:minuet_library/login_page.dart';
 
 void main() {
